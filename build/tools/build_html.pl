@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Encode;
 use Pod::PseudoPod::HTML;
 use File::Spec::Functions qw( catfile catdir splitpath );
 
@@ -21,7 +22,8 @@ sub Pod::PseudoPod::HTML::end_L
         my $link = $1;
         die "Unknown link $link\n" unless exists $anchors->{$link};
         $self->{scratch} .= '<a href="' . $anchors->{$link}[0] . "#$link\">"
-                                        . $anchors->{$link}[1] . '</a>';
+                                        . decode_utf8($anchors->{$link}[1])
+                                        . '</a>';
     }
 }
 
